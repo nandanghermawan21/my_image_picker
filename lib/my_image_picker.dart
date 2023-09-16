@@ -50,6 +50,8 @@ class ImagePickerComponent extends StatelessWidget {
   final VoidCallback? onStartGetImage;
   final VoidCallback? onEndGetImage;
   final String? selectPhotoLabel;
+  final String? openCameraLabel;
+  final String? openGaleryLabel;
 
   const ImagePickerComponent({
     super.key,
@@ -87,6 +89,8 @@ class ImagePickerComponent extends StatelessWidget {
     this.onStartGetImage,
     this.onEndGetImage,
     this.selectPhotoLabel,
+    this.openCameraLabel,
+    this.openGaleryLabel,
   });
 
   @override
@@ -225,12 +229,13 @@ class ImagePickerComponent extends StatelessWidget {
                                     onPressed: () {
                                       openCamera(context);
                                     },
-                                    child: Text(
-                                      "Camera",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium,
-                                    ),
+                                    child: Text( openCameraLabel ??"Camera",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium
+                                            ?.copyWith(
+                                              color: Colors.white,
+                                            )),
                                   ),
                                 ),
                           const SizedBox(
@@ -247,12 +252,13 @@ class ImagePickerComponent extends StatelessWidget {
                                     onPressed: () {
                                       openGalery(context);
                                     },
-                                    child: Text(
-                                      "Gallery",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium,
-                                    ),
+                                    child: Text(openCameraLabel ?? "Gallery",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium
+                                            ?.copyWith(
+                                              color: Colors.white,
+                                            )),
                                   ),
                                 ),
                         ],
@@ -689,7 +695,6 @@ class ImagePickerController extends ValueNotifier<ImagePickerValue> {
       return;
     }
 
-
     try {
       debugPrint("upload url... $url");
       value.uploadedSize = 0;
@@ -873,7 +878,6 @@ class ImagePickerValue {
   ImagePickerComponentState state;
   int uploadedSize = 0;
   int fileSize = 0;
-
 
   ImagePickerValue({
     this.loadData = false,
