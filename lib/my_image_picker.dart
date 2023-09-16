@@ -419,7 +419,7 @@ class ImagePickerComponent extends StatelessWidget {
   Widget immageWidget(ImagePickerValue value) {
     return imageContainer != null
         ? imageContainer!(value)
-        : value.uploadedUrl != null && value.uploadedUrl != ""
+        : value.uploadedUrl == null && value.uploadedUrl == ""
             ? memoryImageMode(value)
             : networkImageMode(value);
   }
