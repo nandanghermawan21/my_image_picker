@@ -13,6 +13,7 @@ class FileServiceUtil {
     @required File? file,
     @required String? url,
     String? field,
+    String? token,
     Map<String, dynamic>? header,
     OnUploadProgressCallback? onUploadProgress,
   }) async {
@@ -45,6 +46,8 @@ class FileServiceUtil {
 
     request.headers.set(HttpHeaders.contentTypeHeader,
         requestMultipart.headers[HttpHeaders.contentTypeHeader]!);
+
+    request.headers.set(HttpHeaders.authorizationHeader, token ?? "");
 
     header?.forEach((key, value) {
       request.headers.set(key, value);
