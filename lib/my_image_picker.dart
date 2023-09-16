@@ -427,7 +427,7 @@ class ImagePickerComponent extends StatelessWidget {
   Widget memoryImageMode(ImagePickerValue value) {
     return Container(
       margin: const EdgeInsets.all(8),
-      decoration: value.valueUri == null
+      decoration: value.valueUri != null
           ? BoxDecoration(
               image: DecorationImage(
                 image: MemoryImage(value.valueUri!.contentAsBytes()),
