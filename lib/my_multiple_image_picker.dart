@@ -121,7 +121,7 @@ class MultipleImagePickerComponent extends StatelessWidget {
   Widget imgPickerBuilder(
       int index, ImagePickerController imagePickerController) {
     return Container(
-      height: size != null ? size! + 5 : 115,
+      height: size != null ? (size! + 5) : 115,
       width: size ?? 110,
       margin: const EdgeInsets.only(bottom: 10),
       child: Stack(
@@ -129,11 +129,11 @@ class MultipleImagePickerComponent extends StatelessWidget {
           Align(
             alignment: Alignment.bottomLeft,
             child: SizedBox(
-              height: size != null ? size! - 5 : 100,
-              width: size != null ? size! - 5 : 100,
+              height: size != null ? (size! - 5) : 100,
+              width: size != null ? (size! - 5) : 100,
               child: ImagePickerComponent(
-                containerHeight: size != null ? size! - 5 : 100,
-                containerWidth: size != null ? size! - 5 : 100,
+                containerHeight: size != null ? (size! - 5) : 100,
+                containerWidth: size != null ? (size! - 5) : 100,
                 camera: camera,
                 galery: galery,
                 controller: imagePickerController,
