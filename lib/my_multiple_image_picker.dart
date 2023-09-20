@@ -45,6 +45,7 @@ class MultipleImagePickerComponent extends StatelessWidget {
   final String? selectPhotoLabel;
   final String? openCameraLabel;
   final String? openGalleryLabel;
+  final ValueChanged<List<ImagePickerController?>?>? onChange;
 
   const MultipleImagePickerComponent({
     super.key,
@@ -85,6 +86,7 @@ class MultipleImagePickerComponent extends StatelessWidget {
     this.selectPhotoLabel,
     this.openCameraLabel,
     this.openGalleryLabel,
+    this.onChange,
   });
 
   @override
@@ -155,6 +157,11 @@ class MultipleImagePickerComponent extends StatelessWidget {
                     imagePickerPlaceHolderContainers.length - 1 >= index
                         ? imagePickerPlaceHolderContainers[index]
                         : null,
+                onChange: (val) {
+                  if (onChange != null) {
+                    onChange!(controller.value.imagePickerControllers);
+                  }
+                },
               ),
             ),
           ),
@@ -194,6 +201,7 @@ class MultipleImagePickerComponent extends StatelessWidget {
                               (value) {
                                 if (value == true) {
                                   controller.remove(index);
+                                  onChange!(controller.value.imagePickerControllers);
                                   if (onImageDeleted != null) {
                                     onImageDeleted!();
                                   }
@@ -202,6 +210,7 @@ class MultipleImagePickerComponent extends StatelessWidget {
                             );
                           } else {
                             controller.remove(index);
+                            onChange!(controller.value.imagePickerControllers);
                             if (onImageDeleted != null) {
                               onImageDeleted!();
                             }

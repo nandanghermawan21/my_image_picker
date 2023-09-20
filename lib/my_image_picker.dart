@@ -52,6 +52,7 @@ class ImagePickerComponent extends StatelessWidget {
   final String? selectPhotoLabel;
   final String? openCameraLabel;
   final String? openGaleryLabel;
+  final ValueChanged<ImagePickerController>? onChange;
 
   const ImagePickerComponent({
     super.key,
@@ -91,6 +92,7 @@ class ImagePickerComponent extends StatelessWidget {
     this.selectPhotoLabel,
     this.openCameraLabel,
     this.openGaleryLabel,
+    this.onChange,
   });
 
   @override
@@ -120,6 +122,7 @@ class ImagePickerComponent extends StatelessWidget {
                                 onImageLoaded: onImageLoaded,
                                 onStartGetImage: onStartGetImage,
                                 onEndGetImage: onEndGetImage,
+                                onChange: onChange,
                               );
                             } else if (galery == true) {
                               controller.getImages(
@@ -128,6 +131,7 @@ class ImagePickerComponent extends StatelessWidget {
                                 onImageLoaded: onImageLoaded,
                                 onStartGetImage: onStartGetImage,
                                 onEndGetImage: onEndGetImage,
+                                onChange: onChange,
                               );
                             }
                           }
@@ -229,7 +233,7 @@ class ImagePickerComponent extends StatelessWidget {
                                     onPressed: () {
                                       openCamera(context);
                                     },
-                                    child: Text( openCameraLabel ??"Camera",
+                                    child: Text(openCameraLabel ?? "Camera",
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyMedium
@@ -277,11 +281,13 @@ class ImagePickerComponent extends StatelessWidget {
     memorySpaceCheck(context).then((result) {
       if (result == true) {
         controller.getImages(
-            camera: false,
-            imageQuality: imageQuality ?? 30,
-            onImageLoaded: onImageLoaded,
-            onStartGetImage: onStartGetImage,
-            onEndGetImage: onEndGetImage);
+          camera: false,
+          imageQuality: imageQuality ?? 30,
+          onImageLoaded: onImageLoaded,
+          onStartGetImage: onStartGetImage,
+          onEndGetImage: onEndGetImage,
+          onChange: onChange
+        );
       }
     });
   }
@@ -292,12 +298,12 @@ class ImagePickerComponent extends StatelessWidget {
     memorySpaceCheck(context).then((result) {
       if (result == true) {
         controller.getImages(
-          camera: true,
-          imageQuality: imageQuality ?? 30,
-          onImageLoaded: onImageLoaded,
-          onStartGetImage: onStartGetImage,
-          onEndGetImage: onEndGetImage,
-        );
+            camera: true,
+            imageQuality: imageQuality ?? 30,
+            onImageLoaded: onImageLoaded,
+            onStartGetImage: onStartGetImage,
+            onEndGetImage: onEndGetImage,
+            onChange: onChange);
       }
     });
   }
@@ -540,7 +546,9 @@ class ImagePickerController extends ValueNotifier<ImagePickerValue> {
     BuildContext? context,
     VoidCallback? onStartGetImage,
     VoidCallback? onEndGetImage,
+    ValueChanged<ImagePickerController>? onChange,
   }) async {
+    onStartGetImage?.call();
     try {
       PickedFile? picker;
       if (camera) {
@@ -597,10 +605,14 @@ class ImagePickerController extends ValueNotifier<ImagePickerValue> {
       }).catchError((e) {
         value.error = e;
         notifyListeners();
+        onChange?.call(this);
         return false;
+      }).whenComplete(() {
+        onEndGetImage?.call();
       });
     } catch (e) {
       debugPrint("error on get picture");
+      onEndGetImage?.call();
       return false;
     }
   }
