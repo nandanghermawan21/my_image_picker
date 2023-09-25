@@ -376,7 +376,7 @@ class ImagePickerComponent extends StatelessWidget {
               margin: EdgeInsets.only(
                   left: (containerWidth ?? 100) * 10 / 100,
                   right: (containerWidth ?? 100) * 10 / 100),
-              padding: const EdgeInsets.all(2),
+              padding: const EdgeInsets.all(0),
               width: containerWidth,
               height: 20,
               decoration: BoxDecoration(
