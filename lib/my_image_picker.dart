@@ -154,7 +154,7 @@ class ImagePickerComponent extends StatelessWidget {
                         style: BorderStyle.solid,
                       ),
                       borderRadius: const BorderRadius.all(
-                        Radius.circular(15),
+                        Radius.circular(5),
                       ),
                     ),
                     child: Center(
