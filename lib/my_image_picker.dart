@@ -281,13 +281,12 @@ class ImagePickerComponent extends StatelessWidget {
     memorySpaceCheck(context).then((result) {
       if (result == true) {
         controller.getImages(
-          camera: false,
-          imageQuality: imageQuality ?? 30,
-          onImageLoaded: onImageLoaded,
-          onStartGetImage: onStartGetImage,
-          onEndGetImage: onEndGetImage,
-          onChange: onChange
-        );
+            camera: false,
+            imageQuality: imageQuality ?? 30,
+            onImageLoaded: onImageLoaded,
+            onStartGetImage: onStartGetImage,
+            onEndGetImage: onEndGetImage,
+            onChange: onChange);
       }
     });
   }
@@ -601,6 +600,7 @@ class ImagePickerController extends ValueNotifier<ImagePickerValue> {
         if (onImageLoaded != null) {
           onImageLoaded(value.fileImage);
         }
+        onChange?.call(this);
         return true;
       }).catchError((e) {
         value.error = e;
