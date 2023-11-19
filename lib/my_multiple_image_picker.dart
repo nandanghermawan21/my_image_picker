@@ -201,7 +201,8 @@ class MultipleImagePickerComponent extends StatelessWidget {
                               (value) {
                                 if (value == true) {
                                   controller.remove(index);
-                                  onChange!(controller.value.imagePickerControllers);
+                                  onChange!(
+                                      controller.value.imagePickerControllers);
                                   if (onImageDeleted != null) {
                                     onImageDeleted!();
                                   }
@@ -280,6 +281,13 @@ class MultipleImagePickerComponent extends StatelessWidget {
             controller.add(
               camera: camera,
               onImageLoaded: onImageLoaded,
+              onEndGetImage: onEndGetImage,
+              onStartGetImage: onStartGetImage,
+              onChange: (val) {
+                if (onChange != null) {
+                  onChange!(controller.value.imagePickerControllers);
+                }
+              },
             );
           }
         },
@@ -408,6 +416,9 @@ class MultipleImagePickerComponent extends StatelessWidget {
     controller.add(
       camera: false,
       onImageLoaded: onImageLoaded,
+      onEndGetImage: onEndGetImage,
+      onStartGetImage: onStartGetImage,
+      onChange: (p0) => onChange!(controller.value.imagePickerControllers),
     );
   }
 
@@ -416,6 +427,9 @@ class MultipleImagePickerComponent extends StatelessWidget {
     controller.add(
       camera: true,
       onImageLoaded: onImageLoaded,
+      onEndGetImage: onEndGetImage,
+      onStartGetImage: onStartGetImage,
+      onChange: (p0) => onChange!(controller.value.imagePickerControllers),
     );
   }
 }
@@ -431,7 +445,8 @@ class MultipleImagePickerController
       {bool camera = true,
       ValueChanged<File?>? onImageLoaded,
       VoidCallback? onStartGetImage,
-      VoidCallback? onEndGetImage}) {
+      VoidCallback? onEndGetImage,
+      Function(ImagePickerController)? onChange}) {
     value.imagePickerControllers!.add(ImagePickerController());
     value.imagePickerControllers!.last.value.context = value.context;
     notifyListeners();
@@ -440,6 +455,7 @@ class MultipleImagePickerController
       onImageLoaded: onImageLoaded,
       onStartGetImage: onStartGetImage,
       onEndGetImage: onEndGetImage,
+      onChange: onChange,
     );
   }
 
