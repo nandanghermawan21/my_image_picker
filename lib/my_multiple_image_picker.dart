@@ -46,6 +46,7 @@ class MultipleImagePickerComponent extends StatelessWidget {
   final String? openCameraLabel;
   final String? openGalleryLabel;
   final ValueChanged<List<ImagePickerController?>?>? onChange;
+  final int? maxCount;
 
   const MultipleImagePickerComponent({
     super.key,
@@ -87,6 +88,7 @@ class MultipleImagePickerComponent extends StatelessWidget {
     this.openCameraLabel,
     this.openGalleryLabel,
     this.onChange,
+    this.maxCount,
   });
 
   @override
@@ -291,9 +293,12 @@ class MultipleImagePickerComponent extends StatelessWidget {
             );
           }
         },
-        child: addButtonBuilder != null
-            ? addButtonBuilder!(context)
-            : addBtnBuilder(context),
+        child: (maxCount != null &&
+                imagePickerControllers.length >= (maxCount ?? 0))
+            ? const SizedBox()
+            : addButtonBuilder != null
+                ? addButtonBuilder!(context)
+                : addBtnBuilder(context),
       ));
     }
     return widget;
