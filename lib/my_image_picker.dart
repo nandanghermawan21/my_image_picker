@@ -551,8 +551,8 @@ class ImagePickerController extends ValueNotifier<ImagePickerValue> {
     try {
       PickedFile? picker;
       if (camera) {
-        PermissionStatus access = await Permission.photos.status;
-        if (access.isGranted == true) {
+        bool isGranted = await Permission.photos.isGranted;
+        if (isGranted == true) {
           // picker = await ImagePicker()
           //     // ignore: deprecated_member_use
           //     .getImage(source: ImageSource.camera, imageQuality: imageQuality);
