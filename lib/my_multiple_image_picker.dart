@@ -504,6 +504,17 @@ class MultipleImagePickerController
     return result;
   }
 
+  List<ImageData?> getImageData() {
+    List<ImageData?> result = [];
+    for (ImagePickerController controller in value.imagePickerControllers!) {
+      result.add(ImageData(
+        base64: controller.getBase64(),
+        description: controller.value.imageDescription,
+      ));
+    }
+    return result;
+  }
+
   List<dynamic> getUploadedImageId() {
     List<dynamic> result = [];
     for (ImagePickerController controller in value.imagePickerControllers!) {
@@ -554,4 +565,14 @@ class MultipleImagePickerValue {
   }) {
     imagePickerControllers ??= [];
   }
+}
+
+class ImageData {
+  final String? base64;
+  final String? description;
+
+  ImageData({
+    this.base64,
+    this.description,
+  });
 }
