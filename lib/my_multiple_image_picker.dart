@@ -575,4 +575,20 @@ class ImageData {
     this.base64,
     this.description,
   });
+
+  //buat from json
+  factory ImageData.fromJson(Map<String, dynamic> json) {
+    return ImageData(
+      base64: json['base64'],
+      description: json['description'],
+    );
+  }
+
+  //buat to json
+  Map<String, dynamic> toJson() {
+    return {
+      'base64': base64,
+      'description': description,
+    };
+  }
 }

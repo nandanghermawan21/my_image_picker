@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:json_view/json_view.dart';
 import 'package:my_image_picker/my_multiple_image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -53,22 +55,45 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          Container(
-            height: 300,
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.all(5),
+              margin: const EdgeInsets.all(10),
+              width: double.infinity,
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey),
+              ),
+              child: SingleChildScrollView(
+                child: MultipleImagePickerComponent(
+                  controller: controller,
+                  size: 150,
+                ),
+              ),
+            ),
+          ),
+          Expanded(
+              child: Container(
             padding: const EdgeInsets.all(5),
             margin: const EdgeInsets.all(10),
             width: double.infinity,
             decoration: BoxDecoration(
               border: Border.all(color: Colors.grey),
             ),
-            child: SingleChildScrollView(
-              child: MultipleImagePickerComponent(
-                controller: controller,
-                size: 150,
-              ),
+            child: JsonView(
+              json: controller.getImageData().map((e) => e?.toJson()).toList(),
+              arrow: const Icon(Icons.arrow_right_rounded),
             ),
-          )
+          ))
         ],
+      ),
+      bottomNavigationBar: Container(
+        padding: const EdgeInsets.all(10),
+        child: ElevatedButton(
+          onPressed: () {
+            setState(() {});
+          },
+          child: const Text("Get Data"),
+        ),
       ),
     );
   }
