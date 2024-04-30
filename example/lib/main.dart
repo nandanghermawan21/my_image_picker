@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_image_picker/my_multiple_image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 void main() {
   runApp(const MyApp());
@@ -36,8 +37,15 @@ class _MyHomePageState extends State<MyHomePage> {
   MultipleImagePickerController controller = MultipleImagePickerController();
 
   @override
+  void initState() {
+    super.initState();
+    Permission.camera.request();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
@@ -53,9 +61,11 @@ class _MyHomePageState extends State<MyHomePage> {
             decoration: BoxDecoration(
               border: Border.all(color: Colors.grey),
             ),
-            child: MultipleImagePickerComponent(
-              controller: controller,
-              size: 150,
+            child: SingleChildScrollView(
+              child: MultipleImagePickerComponent(
+                controller: controller,
+                size: 150,
+              ),
             ),
           )
         ],

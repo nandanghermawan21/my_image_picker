@@ -53,6 +53,9 @@ class ImagePickerComponent extends StatelessWidget {
   final String? openCameraLabel;
   final String? openGaleryLabel;
   final ValueChanged<ImagePickerController>? onChange;
+  final String? addDescriptionLabel;
+  final String? saveLabel;
+  final String? cancelLabel;
 
   const ImagePickerComponent({
     super.key,
@@ -93,6 +96,9 @@ class ImagePickerComponent extends StatelessWidget {
     this.openCameraLabel,
     this.openGaleryLabel,
     this.onChange,
+    this.addDescriptionLabel = "Add Description",
+    this.saveLabel = "Save",
+    this.cancelLabel = "Cancel",
   });
 
   @override
@@ -436,11 +442,46 @@ class ImagePickerComponent extends StatelessWidget {
   }
 
   Widget immageWidget(ImagePickerValue value) {
-    return imageContainer != null
-        ? imageContainer!(value)
-        : value.uploadedUrl == null || value.uploadedUrl == ""
-            ? memoryImageMode(value)
-            : networkImageMode(value);
+    return SizedBox(
+      child: Stack(
+        children: [
+          imageContainer != null
+              ? imageContainer!(value)
+              : value.uploadedUrl == null || value.uploadedUrl == ""
+                  ? memoryImageMode(value)
+                  : networkImageMode(value),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: GestureDetector(
+              onTap: () {
+                showModalDescription(value.context!);
+              },
+              child: Container(
+                color: Theme.of(value.context!)
+                    .colorScheme
+                    .primary
+                    .withOpacity(0.9),
+                padding: const EdgeInsets.all(5),
+                width: double.infinity,
+                height: 25,
+                child: Center(
+                  child: Text(
+                    value.imageDescription ?? "add description",
+                    textAlign: TextAlign.center,
+                    softWrap: true,
+                    overflow: TextOverflow.fade,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 10,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
   }
 
   Widget memoryImageMode(ImagePickerValue value) {
@@ -518,6 +559,135 @@ class ImagePickerComponent extends StatelessWidget {
     //   );
     //   return false;
     // });
+  }
+
+  void showModalDescription(BuildContext context) {
+    final formKey = GlobalKey<FormState>();
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.white,
+      builder: (BuildContext context) {
+        return SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).viewInsets.bottom,
+              top: 20,
+              left: 10,
+              right: 10,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Form(
+                  key: formKey,
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        keyboardType: TextInputType.text,
+                        controller: TextEditingController(
+                          text: (controller.value.imageDescription ?? '')
+                              .toString(),
+                        )..selection = TextSelection.collapsed(
+                            offset: ((controller.value.imageDescription ?? '')
+                                    .toString())
+                                .length),
+                        textCapitalization: TextCapitalization.characters,
+                        decoration: InputDecoration(
+                          contentPadding:
+                              const EdgeInsets.symmetric(horizontal: 10),
+                          hintText: addDescriptionLabel ?? "Add Description",
+                          hintStyle: Theme.of(context).textTheme.labelMedium,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                            borderSide: const BorderSide(
+                              width: 1,
+                            ),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                            borderSide: const BorderSide(
+                              width: 1,
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                            borderSide: const BorderSide(
+                              width: 1,
+                            ),
+                          ),
+                        ),
+                        onSaved: (value) {
+                          controller.value.imageDescription = value;
+                          controller.commit();
+                        },
+                      )
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 5),
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                Theme.of(context).colorScheme.error,
+                            foregroundColor: Colors.white,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 10),
+                            alignment: Alignment.center,
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text(
+                            cancelLabel ?? "Cancel",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 5),
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                Theme.of(context).colorScheme.primary,
+                            foregroundColor: Colors.white,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 10),
+                            alignment: Alignment.center,
+                          ),
+                          onPressed: () {
+                            formKey.currentState!.save();
+                            Navigator.of(context).pop();
+                          },
+                          child: Text(
+                            saveLabel ?? "Save",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 }
 
@@ -890,6 +1060,7 @@ class ImagePickerValue {
   String? uploadedUrl;
   dynamic uploadedId;
   String? base64Compress;
+  String? imageDescription;
   String? base64;
   UriData? valueUri;
   File? fileImage;
