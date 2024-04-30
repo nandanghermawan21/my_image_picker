@@ -370,6 +370,10 @@ class MultipleImagePickerComponent extends StatelessWidget {
                                     onPressed: () {
                                       openCamera(context);
                                     },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor:
+                                          Theme.of(context).colorScheme.primary,
+                                    ),
                                     child: Text(
                                       openCameraLabel ?? 'Camera',
                                       style: Theme.of(context)
@@ -395,6 +399,10 @@ class MultipleImagePickerComponent extends StatelessWidget {
                                     onPressed: () {
                                       openGalery(context);
                                     },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor:
+                                          Theme.of(context).colorScheme.primary,
+                                    ),
                                     child: Text(
                                       openGalleryLabel ?? 'Gallery',
                                       style: Theme.of(context)
