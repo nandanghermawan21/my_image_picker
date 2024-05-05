@@ -100,7 +100,7 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {
                 setState(() {});
               },
-              child: const Text("Read Data"),
+              child: const Text("Read"),
             ),
             const SizedBox(
               width: 10,
@@ -108,19 +108,29 @@ class _MyHomePageState extends State<MyHomePage> {
             ElevatedButton(
               onPressed: () {
                 controller.clear();
-                controller.value.imagePickerControllers?.addAll(
-                  ImageData.dummyData.map(
-                    (e) => ImagePickerController(
-                      value: ImagePickerValue(
-                        loadData: true,
-                        uploadedUrl: e.imageUrl,
-                        imageDescription: e.description,
+              },
+              child: const Text("Clear"),
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                controller.setState(() {
+                  controller.value.imagePickerControllers?.addAll(
+                    ImageData.dummyData.map(
+                      (e) => ImagePickerController(
+                        value: ImagePickerValue(
+                          loadData: true,
+                          uploadedUrl: e.imageUrl,
+                          imageDescription: e.description,
+                        ),
                       ),
                     ),
-                  ),
-                );
+                  );
+                });
               },
-              child: const Text("Load Data"),
+              child: const Text("Load"),
             ),
           ],
         ),
