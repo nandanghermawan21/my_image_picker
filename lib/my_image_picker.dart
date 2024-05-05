@@ -56,6 +56,7 @@ class ImagePickerComponent extends StatelessWidget {
   final String? addDescriptionLabel;
   final String? saveLabel;
   final String? cancelLabel;
+  final bool? canReupload;
 
   const ImagePickerComponent({
     super.key,
@@ -99,6 +100,7 @@ class ImagePickerComponent extends StatelessWidget {
     this.addDescriptionLabel = "Add Description",
     this.saveLabel = "Save",
     this.cancelLabel = "Cancel",
+    this.canReupload = true,
   });
 
   @override
@@ -115,6 +117,7 @@ class ImagePickerComponent extends StatelessWidget {
                     }
                   : () {
                       if (!(checkRequirement ?? true)) return;
+                      if (value.isUploaded && canReupload == false) return;
                       memorySpaceCheck(context).then((result) {
                         if (result == true) {
                           if (value.state !=
@@ -772,6 +775,7 @@ class ImagePickerController extends ValueNotifier<ImagePickerValue> {
         value.loadData = true;
         value.valueUri = Uri.parse(_valueBase64Compress).data!;
         value.isUploaded = false;
+        value.uploadedUrl = null;
         value.state = ImagePickerComponentState.Enable;
         getBase64();
         notifyListeners();
@@ -1079,6 +1083,7 @@ class ImagePickerValue {
     this.error,
     this.uploadedUrl,
     this.uploadedId,
+    this.imageDescription,
     this.state = ImagePickerComponentState.Enable,
   });
 }

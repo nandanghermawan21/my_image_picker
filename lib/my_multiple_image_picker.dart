@@ -47,6 +47,7 @@ class MultipleImagePickerComponent extends StatelessWidget {
   final String? openGalleryLabel;
   final ValueChanged<List<ImagePickerController?>?>? onChange;
   final int? maxCount;
+  final bool canReupload;
 
   const MultipleImagePickerComponent({
     super.key,
@@ -89,6 +90,7 @@ class MultipleImagePickerComponent extends StatelessWidget {
     this.openGalleryLabel,
     this.onChange,
     this.maxCount,
+    this.canReupload = true,
   });
 
   @override
@@ -146,6 +148,7 @@ class MultipleImagePickerComponent extends StatelessWidget {
                 uploadUrl: uploadUrl,
                 deleteUrl: deleteUrl,
                 token: token,
+                canReupload: canReupload,
                 onUploaded: (val) {
                   controller.setState(() {
                     if (onUploaded != null) {

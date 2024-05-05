@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:json_view/json_view.dart';
+import 'package:my_image_picker/my_image_picker.dart';
 import 'package:my_image_picker/my_multiple_image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -38,6 +39,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   MultipleImagePickerController controller = MultipleImagePickerController();
 
+  //dummy data
+
   @override
   void initState() {
     super.initState();
@@ -67,6 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: MultipleImagePickerComponent(
                   controller: controller,
                   size: 150,
+                  canReupload: true,
                 ),
               ),
             ),
@@ -88,13 +92,79 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       bottomNavigationBar: Container(
         padding: const EdgeInsets.all(10),
-        child: ElevatedButton(
-          onPressed: () {
-            setState(() {});
-          },
-          child: const Text("Get Data"),
+        width: double.infinity,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                setState(() {});
+              },
+              child: const Text("Read Data"),
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                controller.clear();
+                controller.value.imagePickerControllers?.addAll(
+                  ImageData.dummyData.map(
+                    (e) => ImagePickerController(
+                      value: ImagePickerValue(
+                        loadData: true,
+                        uploadedUrl: e.imageUrl,
+                        imageDescription: e.description,
+                      ),
+                    ),
+                  ),
+                );
+              },
+              child: const Text("Load Data"),
+            ),
+          ],
         ),
       ),
     );
   }
+}
+
+class ImageData {
+  String? imageUrl;
+  String? description;
+
+  ImageData({this.imageUrl, this.description});
+
+  Map<String, dynamic> toJson() {
+    return {
+      "imageUrl": imageUrl,
+      "description": description,
+    };
+  }
+
+  factory ImageData.fromJson(Map<String, dynamic> json) {
+    return ImageData(
+      imageUrl: json["imageUrl"],
+      description: json["description"],
+    );
+  }
+
+  //dummy
+  static List<ImageData> dummyData = [
+    ImageData(
+      imageUrl:
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3yokf-qUHid3rVl9DMcd2ULqN85zdfLqjvA&usqp=CAU",
+      description: "Foto 1",
+    ),
+    ImageData(
+      imageUrl:
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0ujC1_S6eEijjjhVs7GUBmGiF-L-sx1ehRg&usqp=CAU",
+      description: "Foto 2",
+    ),
+    ImageData(
+      imageUrl:
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9ERqrM68QKjOeKGk-AyLfJOshCVqFR_VCCQ&usqp=CAU",
+      description: "Image 3",
+    ),
+  ];
 }
