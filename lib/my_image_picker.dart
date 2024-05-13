@@ -57,6 +57,7 @@ class ImagePickerComponent extends StatelessWidget {
   final String? saveLabel;
   final String? cancelLabel;
   final bool? canReupload;
+  final bool? showDescription;
 
   const ImagePickerComponent({
     super.key,
@@ -101,6 +102,7 @@ class ImagePickerComponent extends StatelessWidget {
     this.saveLabel = "Save",
     this.cancelLabel = "Cancel",
     this.canReupload = true,
+    this.showDescription = true,
   });
 
   @override
@@ -453,35 +455,37 @@ class ImagePickerComponent extends StatelessWidget {
               : value.uploadedUrl == null || value.uploadedUrl == ""
                   ? memoryImageMode(value)
                   : networkImageMode(value),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: GestureDetector(
-              onTap: () {
-                showModalDescription(value.context!);
-              },
-              child: Container(
-                color: Theme.of(value.context!)
-                    .colorScheme
-                    .primary
-                    .withOpacity(0.9),
-                padding: const EdgeInsets.all(5),
-                width: double.infinity,
-                height: 25,
-                child: Center(
-                  child: Text(
-                    value.imageDescription ?? "add description",
-                    textAlign: TextAlign.center,
-                    softWrap: true,
-                    overflow: TextOverflow.fade,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 10,
+          showDescription == false
+              ? const SizedBox()
+              : Align(
+                  alignment: Alignment.bottomCenter,
+                  child: GestureDetector(
+                    onTap: () {
+                      showModalDescription(value.context!);
+                    },
+                    child: Container(
+                      color: Theme.of(value.context!)
+                          .colorScheme
+                          .primary
+                          .withOpacity(0.9),
+                      padding: const EdgeInsets.all(5),
+                      width: double.infinity,
+                      height: 25,
+                      child: Center(
+                        child: Text(
+                          value.imageDescription ?? "add description",
+                          textAlign: TextAlign.center,
+                          softWrap: true,
+                          overflow: TextOverflow.fade,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 10,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ),
-            ),
-          )
+                )
         ],
       ),
     );

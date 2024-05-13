@@ -122,6 +122,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       (e) => ImagePickerController(
                         value: ImagePickerValue(
                           loadData: true,
+                          uploadedId: e.imageUrl,
                           uploadedUrl: e.imageUrl,
                           imageDescription: e.description,
                         ),

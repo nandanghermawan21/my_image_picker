@@ -48,6 +48,7 @@ class MultipleImagePickerComponent extends StatelessWidget {
   final ValueChanged<List<ImagePickerController?>?>? onChange;
   final int? maxCount;
   final bool canReupload;
+  final bool showDescription;
 
   const MultipleImagePickerComponent({
     super.key,
@@ -91,6 +92,7 @@ class MultipleImagePickerComponent extends StatelessWidget {
     this.onChange,
     this.maxCount,
     this.canReupload = true,
+    this.showDescription = true,
   });
 
   @override
@@ -167,6 +169,7 @@ class MultipleImagePickerComponent extends StatelessWidget {
                     onChange!(controller.value.imagePickerControllers);
                   }
                 },
+                showDescription: showDescription,
               ),
             ),
           ),
