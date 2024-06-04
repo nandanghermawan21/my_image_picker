@@ -750,14 +750,24 @@ class ImagePickerController extends ValueNotifier<ImagePickerValue> {
           openModalErrorMessage(
             value.context!,
             title: "Permission Required",
-            body:
-                "Please allow this app to access your camera and gallery to continue",
+            body: "Please allow this app to access your camera to continue",
           );
         }
       } else {
-        picker = await ImagePicker()
-            // ignore: deprecated_member_use
-            .getImage(source: ImageSource.gallery, imageQuality: imageQuality);
+        PermissionStatus access = await Permission.photos.request();
+        PermissionStatus access2 = await Permission.photos.status;
+        if (access2.isGranted == true) {
+          XFile? xFile = await ImagePicker().pickMedia(
+            imageQuality: imageQuality,
+          );
+          picker = PickedFile(xFile!.path);
+        } else {
+          openModalErrorMessage(
+            value.context!,
+            title: "Permission Required",
+            body: "Please allow this app to access your gallery to continue",
+          );
+        }
       }
 
       File image = File(picker!.path);
