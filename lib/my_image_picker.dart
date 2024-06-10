@@ -111,6 +111,11 @@ class ImagePickerComponent extends StatelessWidget {
       valueListenable: controller,
       builder: (context, value, child) {
         controller.value.context = context;
+        if (showDescription == true) {
+          controller.value.beforeUpload = () {
+            return showModalDescription(context);
+          };
+        }
         return GestureDetector(
           onTap: readOnly == false
               ? onTap != null
@@ -461,6 +466,7 @@ class ImagePickerComponent extends StatelessWidget {
                   alignment: Alignment.bottomCenter,
                   child: GestureDetector(
                     onTap: () {
+                      if (uploadUrl != null && uploadUrl != "") return;
                       showModalDescription(value.context!);
                     },
                     child: Container(
@@ -568,9 +574,9 @@ class ImagePickerComponent extends StatelessWidget {
     // });
   }
 
-  void showModalDescription(BuildContext context) {
+  Future<bool> showModalDescription(BuildContext context) {
     final formKey = GlobalKey<FormState>();
-    showModalBottomSheet(
+    return showModalBottomSheet(
       context: context,
       backgroundColor: Colors.white,
       builder: (BuildContext context) {
@@ -649,7 +655,7 @@ class ImagePickerComponent extends StatelessWidget {
                             alignment: Alignment.center,
                           ),
                           onPressed: () {
-                            Navigator.of(context).pop();
+                            Navigator.of(context).pop(false);
                           },
                           child: Text(
                             cancelLabel ?? "Cancel",
@@ -675,7 +681,7 @@ class ImagePickerComponent extends StatelessWidget {
                           ),
                           onPressed: () {
                             formKey.currentState!.save();
-                            Navigator.of(context).pop();
+                            Navigator.of(context).pop(true);
                           },
                           child: Text(
                             saveLabel ?? "Save",
@@ -694,7 +700,9 @@ class ImagePickerComponent extends StatelessWidget {
           ),
         );
       },
-    );
+    ).then((onValue) {
+      return onValue;
+    });
   }
 }
 
@@ -781,7 +789,17 @@ class ImagePickerController extends ValueNotifier<ImagePickerValue> {
       return await FlutterImageCompress.compressWithFile(
         image.absolute.path,
         quality: value.quality,
-      ).then((a) {
+      ).then((a) async {
+        bool _doUpload = true;
+        if (value.beforeUpload != null) {
+          _doUpload = await value.beforeUpload!();
+        }
+
+        if (_doUpload == false) {
+          clear();
+          return false;
+        }
+
         _valueBase64Compress =
             getExtension(image.toString())! + base64.encode(a!);
         value.base64Compress = _valueBase64Compress;
@@ -1087,6 +1105,7 @@ class ImagePickerValue {
   ImagePickerComponentState state;
   int uploadedSize = 0;
   int fileSize = 0;
+  Future<bool> Function()? beforeUpload;
 
   ImagePickerValue({
     this.loadData = false,

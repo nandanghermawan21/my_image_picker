@@ -516,6 +516,7 @@ class MultipleImagePickerController
       result.add(ImageData(
         base64: controller.getBase64(),
         description: controller.value.imageDescription,
+        uploadedUrl: controller.value.uploadedUrl,
       ));
     }
     return result;
@@ -576,10 +577,12 @@ class MultipleImagePickerValue {
 class ImageData {
   final String? base64;
   final String? description;
+  final String? uploadedUrl;
 
   ImageData({
     this.base64,
     this.description,
+    this.uploadedUrl,
   });
 
   //buat from json
@@ -595,6 +598,7 @@ class ImageData {
     return {
       'base64': base64,
       'description': description,
+      'uploadedUrl': uploadedUrl,
     };
   }
 }

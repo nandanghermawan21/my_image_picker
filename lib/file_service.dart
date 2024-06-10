@@ -12,8 +12,10 @@ class FileServiceUtil {
   static Future<String> fileUploadMultipart({
     @required File? file,
     @required String? url,
+    @required String? description,
     String? field,
     String? token,
+    String? descriptionField,
     Map<String, dynamic>? header,
     OnUploadProgressCallback? onUploadProgress,
   }) async {
@@ -37,6 +39,10 @@ class FileServiceUtil {
     );
 
     requestMultipart.files.add(multipart);
+
+    if (description != null) {
+      requestMultipart.fields[descriptionField ?? "description"] = description;
+    }
 
     var msStream = requestMultipart.finalize();
 
