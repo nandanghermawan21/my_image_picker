@@ -610,7 +610,7 @@ class ImagePickerComponent extends StatelessWidget {
                             offset: ((controller.value.imageDescription ?? '')
                                     .toString())
                                 .length),
-                        textCapitalization: TextCapitalization.characters,
+                        textCapitalization: TextCapitalization.sentences,
                         decoration: InputDecoration(
                           contentPadding:
                               const EdgeInsets.symmetric(horizontal: 10),
