@@ -38,6 +38,7 @@ class ImagePickerComponent extends StatelessWidget {
   final int? imageQuality;
   final String? uploadUrl;
   final String? uploadField;
+  final String? descriptionField;
   final String? deleteUrl;
   final String? token;
   final ValueChanged<String>? onUploaded;
@@ -58,6 +59,7 @@ class ImagePickerComponent extends StatelessWidget {
   final String? cancelLabel;
   final bool? canReupload;
   final bool? showDescription;
+  final bool? useDescriptionAsQueryUrl;
 
   const ImagePickerComponent({
     super.key,
@@ -103,6 +105,8 @@ class ImagePickerComponent extends StatelessWidget {
     this.cancelLabel = "Cancel",
     this.canReupload = true,
     this.showDescription = true,
+    this.useDescriptionAsQueryUrl = true,
+    this.descriptionField,
   });
 
   @override
@@ -364,7 +368,9 @@ class ImagePickerComponent extends StatelessWidget {
       controller.uploadFile(
         uploadUrl ?? "",
         uploadField ?? "file",
+        descriptionField,
         token: token ?? "",
+        useDescriptionFieldAsQuery: useDescriptionAsQueryUrl,
         onUploaded: (resut) {
           if (onUploaded != null) {
             onUploaded!(resut);
@@ -910,13 +916,11 @@ class ImagePickerController extends ValueNotifier<ImagePickerValue> {
         .toDouble();
   }
 
-  void uploadFile(
-    String url,
-    String field, {
-    String token = "",
-    ValueChanged<String>? onUploaded,
-    ValueChanged<dynamic>? onUploaderror,
-  }) async {
+  void uploadFile(String url, String field, String? descriptionField,
+      {String token = "",
+      ValueChanged<String>? onUploaded,
+      ValueChanged<dynamic>? onUploaderror,
+      bool? useDescriptionFieldAsQuery}) async {
     if (value.fileImage == null) {
       return;
     }
@@ -932,6 +936,9 @@ class ImagePickerController extends ValueNotifier<ImagePickerValue> {
         file: value.fileImage,
         url: url,
         token: token,
+        description: value.imageDescription,
+        descriptionField: descriptionField,
+        useDescriptionFieldAsQuery: useDescriptionFieldAsQuery ?? false,
         onUploadProgress: (
           uploaded,
           fileSize,

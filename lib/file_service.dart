@@ -18,15 +18,30 @@ class FileServiceUtil {
     String? descriptionField,
     Map<String, dynamic>? header,
     OnUploadProgressCallback? onUploadProgress,
+    bool useDescriptionFieldAsQuery = false,
   }) async {
     assert(file != null);
 
     final httpClient = HttpClient()
       ..connectionTimeout = const Duration(seconds: 10);
 
-    final request = await httpClient.postUrl(
-      Uri.parse(url!),
+    Map<String, String> query = {};
+
+    query["description"] = "test saja yaah";
+
+    Uri oldUri = Uri.parse(url!);
+
+    Uri uri = Uri(
+      host: oldUri.host,
+      port: oldUri.port,
+      scheme: oldUri.scheme,
+      fragment: oldUri.fragment,
+      path: oldUri.path,
+      queryParameters: query,
+      userInfo: oldUri.userInfo,
     );
+
+    final request = await httpClient.postUrl(uri);
 
     int byteCount = 0;
 
