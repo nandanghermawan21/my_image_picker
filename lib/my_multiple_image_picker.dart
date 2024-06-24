@@ -50,6 +50,7 @@ class MultipleImagePickerComponent extends StatelessWidget {
   final bool canReupload;
   final bool showDescription;
   final bool? useDescriptionFieldAsQuery;
+  final String? descriptionField;
 
   const MultipleImagePickerComponent({
     super.key,
@@ -95,6 +96,7 @@ class MultipleImagePickerComponent extends StatelessWidget {
     this.canReupload = true,
     this.showDescription = true,
     this.useDescriptionFieldAsQuery,
+    this.descriptionField,
   });
 
   @override
@@ -172,6 +174,7 @@ class MultipleImagePickerComponent extends StatelessWidget {
                   }
                 },
                 showDescription: showDescription,
+                descriptionField: descriptionField,
               ),
             ),
           ),
