@@ -45,7 +45,7 @@ class MultipleImagePickerComponent extends StatelessWidget {
   final String? selectPhotoLabel;
   final String? openCameraLabel;
   final String? openGalleryLabel;
-  final ValueChanged<List<ImagePickerController?>?>? onChange;
+  final ValueChanged<MultipleImagePickerController>? onChange;
   final int? maxCount;
   final bool canReupload;
   final bool showDescription;
@@ -170,7 +170,7 @@ class MultipleImagePickerComponent extends StatelessWidget {
                         : null,
                 onChange: (val) {
                   if (onChange != null) {
-                    onChange!(controller.value.imagePickerControllers);
+                    onChange!(controller);
                   }
                 },
                 showDescription: showDescription,
@@ -214,8 +214,7 @@ class MultipleImagePickerComponent extends StatelessWidget {
                               (value) {
                                 if (value == true) {
                                   controller.remove(index);
-                                  onChange!(
-                                      controller.value.imagePickerControllers);
+                                  onChange!(controller);
                                   if (onImageDeleted != null) {
                                     onImageDeleted!();
                                   }
@@ -224,7 +223,7 @@ class MultipleImagePickerComponent extends StatelessWidget {
                             );
                           } else {
                             controller.remove(index);
-                            onChange!(controller.value.imagePickerControllers);
+                            onChange!(controller);
                             if (onImageDeleted != null) {
                               onImageDeleted!();
                             }
@@ -298,7 +297,7 @@ class MultipleImagePickerComponent extends StatelessWidget {
               onStartGetImage: onStartGetImage,
               onChange: (val) {
                 if (onChange != null) {
-                  onChange!(controller.value.imagePickerControllers);
+                  onChange!(controller);
                 }
               },
             );
@@ -442,7 +441,7 @@ class MultipleImagePickerComponent extends StatelessWidget {
       onImageLoaded: onImageLoaded,
       onEndGetImage: onEndGetImage,
       onStartGetImage: onStartGetImage,
-      onChange: (p0) => onChange!(controller.value.imagePickerControllers),
+      onChange: (p0) => onChange!(controller),
     );
   }
 
@@ -453,7 +452,7 @@ class MultipleImagePickerComponent extends StatelessWidget {
       onImageLoaded: onImageLoaded,
       onEndGetImage: onEndGetImage,
       onStartGetImage: onStartGetImage,
-      onChange: (p0) => onChange!(controller.value.imagePickerControllers),
+      onChange: (p0) => onChange!(controller),
     );
   }
 }

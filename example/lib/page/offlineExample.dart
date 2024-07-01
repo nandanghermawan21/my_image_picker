@@ -49,6 +49,12 @@ class _OfflineExampleState extends State<OfflineExample> {
                   controller: controller,
                   size: 150,
                   canReupload: true,
+                  onChange: (controller) {
+                    controller.getImageData().forEach((element) {
+                      print(element?.toJson());
+                    });
+                    setState(() {});
+                  },
                 ),
               ),
             ),
