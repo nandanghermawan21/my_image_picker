@@ -1,3 +1,4 @@
+import 'package:example/page/customBuilder.dart';
 import 'package:example/page/offlineExample.dart';
 import 'package:example/page/onlineExample.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,12 @@ Drawer drawer(BuildContext context) {
           title: const Text("Online Picker"),
           onTap: () {
             Navigator.of(context).pushNamed("/online");
+          },
+        ),
+        ListTile(
+          title: const Text("Custom Builder"),
+          onTap: () {
+            Navigator.of(context).pushNamed("/custom");
           },
         ),
       ],
@@ -48,6 +55,10 @@ class MyApp extends StatelessWidget {
             ),
         '/online': (context) => const OnlineExample(
               title: 'Online Image Picker Example',
+              drawer: drawer,
+            ),
+        '/custom': (context) => const CustomBuilderExample(
+              title: 'Custom Builder Example',
               drawer: drawer,
             ),
       },
