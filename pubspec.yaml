@@ -15,12 +15,14 @@ dependencies:
     git:
       url: https://github.com/nandanghermawan21/my_camera.git
       ref: master
-  flutter_image_compress: ^1.1.0
+  flutter_image_compress: ^2.3.0
   http: ^1.2.1
   font_awesome_flutter: ^9.2.0
   permission_handler: ^10.0.0
   path_provider: ^2.0.2
   camera: ^0.10.0
+  win32: ^5.5.4
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
