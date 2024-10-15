@@ -370,8 +370,8 @@ class MultipleImagePickerComponent extends StatelessWidget {
                             height: 15,
                           ),
                           buttonCamera != null
-                              ? buttonGalery!(() {
-                                  openGalery(context);
+                              ? buttonCamera!(() {
+                                  openCamera(context);
                                 })
                               : SizedBox(
                                   height: 35,
