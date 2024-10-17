@@ -161,6 +161,7 @@ class MultipleImagePickerComponent extends StatelessWidget {
                       onUploaded!(val);
                     }
                   });
+                  onChange!(controller);
                 },
                 onUploadFailed: onUploadFailed,
                 onImageLoaded: onImageLoaded,
@@ -168,23 +169,9 @@ class MultipleImagePickerComponent extends StatelessWidget {
                     imagePickerPlaceHolderContainers.length - 1 >= index
                         ? imagePickerPlaceHolderContainers[index]
                         : null,
-                onChange: (ImagePickerController val) {
-                  if (showDescription) {
-                    Future.doWhile(() {
-                      if (val.value.state == ImagePickerComponentState.Enable) {
-                        return false;
-                      } else {
-                        return true;
-                      }
-                    }).then((value) {
-                      if (onChange != null) {
-                        onChange!(controller);
-                      }
-                    });
-                  } else {
-                    if (onChange != null) {
-                      onChange!(controller);
-                    }
+                onChange: (val) {
+                  if (onChange != null) {
+                    onChange!(controller);
                   }
                 },
                 showDescription: showDescription,
