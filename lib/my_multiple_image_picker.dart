@@ -156,12 +156,12 @@ class MultipleImagePickerComponent extends StatelessWidget {
                 token: token,
                 canReupload: canReupload,
                 onUploaded: (val) {
+                  onChange!(controller);
                   controller.setState(() {
                     if (onUploaded != null) {
                       onUploaded!(val);
                     }
                   });
-                  // onChange!(controller);
                 },
                 onUploadFailed: onUploadFailed,
                 onImageLoaded: onImageLoaded,
