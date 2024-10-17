@@ -1,6 +1,6 @@
-import 'package:example/page/customBuilder.dart';
-import 'package:example/page/offlineExample.dart';
-import 'package:example/page/onlineExample.dart';
+import 'package:example/page/custom_builder.dart';
+import 'package:example/page/offline_example.dart';
+import 'package:example/page/online_example.dart';
 import 'package:flutter/material.dart';
 
 void main() {

@@ -134,6 +134,7 @@ class ImagePickerComponent extends StatelessWidget {
                           if (value.state !=
                               ImagePickerComponentState.Disable) {
                             if (camera == true && galery == true) {
+                              // ignore: use_build_context_synchronously
                               openModal(context);
                             } else if (camera == true) {
                               controller.getImages(
@@ -768,7 +769,7 @@ class ImagePickerController extends ValueNotifier<ImagePickerValue> {
           );
         }
       } else {
-        PermissionStatus access = await Permission.photos.request();
+        await Permission.photos.request();
         PermissionStatus access2 = await Permission.photos.status;
         if (access2.isGranted == true) {
           XFile? xFile = await ImagePicker().pickMedia(

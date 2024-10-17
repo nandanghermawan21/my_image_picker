@@ -1,9 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:json_view/json_view.dart';
 import 'package:my_image_picker/my_image_picker.dart';
-import 'package:my_image_picker/my_multiple_image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class CustomBuilderExample extends StatefulWidget {
