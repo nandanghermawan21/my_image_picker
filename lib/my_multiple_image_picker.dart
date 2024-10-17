@@ -170,8 +170,22 @@ class MultipleImagePickerComponent extends StatelessWidget {
                         ? imagePickerPlaceHolderContainers[index]
                         : null,
                 onChange: (val) {
-                  if (onChange != null) {
-                    onChange!(controller);
+                  if (uploadUrl != null && uploadUrl!.isNotEmpty) {
+                    Future.doWhile(() {
+                      return val.value.state == ImagePickerComponentState.Enable
+                          ? false
+                          : true;
+                    }).then((value) {
+                      controller.setState(() {
+                        if (onChange != null) {
+                          onChange!(controller);
+                        }
+                      });
+                    });
+                  } else {
+                    if (onChange != null) {
+                      onChange!(controller);
+                    }
                   }
                 },
                 showDescription: showDescription,
