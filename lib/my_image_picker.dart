@@ -284,7 +284,7 @@ class ImagePickerComponent extends StatelessWidget {
                                       backgroundColor:
                                           Theme.of(context).colorScheme.primary,
                                     ),
-                                    child: Text(openCameraLabel ?? "Gallery",
+                                    child: Text(openGaleryLabel ?? "Gallery",
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyMedium
