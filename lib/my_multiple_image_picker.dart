@@ -31,7 +31,7 @@ class MultipleImagePickerComponent extends StatelessWidget {
   final String? deleteUrl;
   final String? token;
   final ValueChanged<File?>? onImageLoaded;
-  final ValueChanged<String>? onUploaded;
+  final ValueChanged<Map>? onUploaded;
   final ValueChanged<dynamic>? onUploadFailed;
   final ObjectBuilderWithParam<Future<bool>, ImagePickerController>?
       onDeleteImage;
@@ -158,8 +158,12 @@ class MultipleImagePickerComponent extends StatelessWidget {
                 onUploaded: (val) {
                   controller.setState(() {
                     if (onUploaded != null) {
-                      onUploaded!(controller.value.imagePickerControllers!.last
-                          .value.uploadedUrl!);
+                      onUploaded!({
+                        "uploadedUrl": controller.value.imagePickerControllers!
+                            .last.value.uploadedUrl!,
+                        "filePath": controller
+                            .value.imagePickerControllers!.last.value.filePath!,
+                      });
                     }
                   });
                 },

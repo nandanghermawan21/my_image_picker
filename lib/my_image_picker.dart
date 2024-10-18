@@ -959,6 +959,7 @@ class ImagePickerController extends ValueNotifier<ImagePickerValue> {
         value.isUploaded = true;
         value.uploadedResponse = result;
         setUploadedUrl();
+        setfilePath();
         setUploadedId();
         value.state = ImagePickerComponentState.Enable;
         onUploaded?.call(result);
@@ -979,6 +980,11 @@ class ImagePickerController extends ValueNotifier<ImagePickerValue> {
   void setUploadedUrl({String? jsonKey}) {
     value.uploadedUrl =
         json.decode(value.uploadedResponse.toString())[jsonKey ?? "fileUrl"];
+  }
+
+  void setfilePath({String? jsonKey}) {
+    value.filePath =
+        json.decode(value.uploadedResponse.toString())[jsonKey ?? "filePath"];
   }
 
   void setUploadedId({String? jsonKey}) {
@@ -1102,6 +1108,7 @@ class ImagePickerValue {
   bool onProgressUpload = false;
   dynamic uploadedResponse;
   String? uploadedUrl;
+  String? filePath;
   dynamic uploadedId;
   String? base64Compress;
   String? imageDescription;
@@ -1123,6 +1130,7 @@ class ImagePickerValue {
     this.valueUri,
     this.error,
     this.uploadedUrl,
+    this.filePath,
     this.uploadedId,
     this.imageDescription,
     this.state = ImagePickerComponentState.Enable,
