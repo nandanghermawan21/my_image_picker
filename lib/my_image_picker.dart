@@ -939,7 +939,6 @@ class ImagePickerController extends ValueNotifier<ImagePickerValue> {
         token: token,
         description: value.imageDescription,
         descriptionField: descriptionField,
-        useDescriptionFieldAsQuery: useDescriptionFieldAsQuery ?? false,
         onUploadProgress: (
           uploaded,
           fileSize,

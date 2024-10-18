@@ -26,9 +26,7 @@ class FileServiceUtil {
       ..connectionTimeout = const Duration(seconds: 10);
 
     Map<String, String> query = {};
-    if (useDescriptionFieldAsQuery) {
-      query["description"] = "test saja yaah";
-    }
+
     Uri oldUri = Uri.parse(url!);
 
     Uri uri = Uri(
@@ -54,11 +52,8 @@ class FileServiceUtil {
     );
 
     requestMultipart.files.add(multipart);
-    if (useDescriptionFieldAsQuery) {
-      if (description != null) {
-        requestMultipart.fields[descriptionField ?? "description"] =
-            description;
-      }
+    if (description != null) {
+      requestMultipart.fields[descriptionField ?? "description"] = description;
     }
 
     var msStream = requestMultipart.finalize();
