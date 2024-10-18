@@ -151,6 +151,7 @@ class MultipleImagePickerComponent extends StatelessWidget {
                 controller: imagePickerController,
                 onTap: onTap,
                 imageQuality: imageQuality,
+                useDescriptionFieldAsQuery: useDescriptionFieldAsQuery,
                 uploadUrl: uploadUrl,
                 deleteUrl: deleteUrl,
                 token: token,

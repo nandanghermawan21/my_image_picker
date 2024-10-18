@@ -59,7 +59,7 @@ class ImagePickerComponent extends StatelessWidget {
   final String? cancelLabel;
   final bool? canReupload;
   final bool? showDescription;
-  final bool? useDescriptionAsQueryUrl;
+  final bool? useDescriptionFieldAsQuery;
 
   const ImagePickerComponent({
     super.key,
@@ -105,7 +105,7 @@ class ImagePickerComponent extends StatelessWidget {
     this.cancelLabel = "Cancel",
     this.canReupload = true,
     this.showDescription = true,
-    this.useDescriptionAsQueryUrl = true,
+    this.useDescriptionFieldAsQuery = true,
     this.descriptionField,
   });
 
@@ -371,7 +371,7 @@ class ImagePickerComponent extends StatelessWidget {
         uploadField ?? "file",
         descriptionField,
         token: token ?? "",
-        useDescriptionFieldAsQuery: useDescriptionAsQueryUrl,
+        useDescriptionFieldAsQuery: useDescriptionFieldAsQuery,
         onUploaded: (resut) {
           if (onUploaded != null) {
             onUploaded!(resut);
