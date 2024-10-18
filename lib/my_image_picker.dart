@@ -59,9 +59,10 @@ class ImagePickerComponent extends StatelessWidget {
   final String? cancelLabel;
   final bool? canReupload;
   final bool? showDescription;
-  final bool? useDescriptionFieldAsQuery;
+  final bool useDescriptionFieldAsQuery;
+  final bool isDirectUpload;
 
-  const ImagePickerComponent({
+  ImagePickerComponent({
     super.key,
     required this.controller,
     this.camera = true,
@@ -106,8 +107,14 @@ class ImagePickerComponent extends StatelessWidget {
     this.canReupload = true,
     this.showDescription = true,
     this.useDescriptionFieldAsQuery = true,
+    this.isDirectUpload = false,
     this.descriptionField,
-  });
+  }) {
+    if (isDirectUpload) {
+      assert(uploadUrl != null && uploadUrl!.isNotEmpty,
+          "uploadUrl must be provided when isDirectUpload is true");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -144,6 +151,11 @@ class ImagePickerComponent extends StatelessWidget {
                                 onStartGetImage: onStartGetImage,
                                 onEndGetImage: onEndGetImage,
                                 onChange: onChange,
+                                isDirectUpload: isDirectUpload
+                                    ? uploadUrl == null || uploadUrl != ""
+                                        ? true
+                                        : false
+                                    : false,
                               );
                             } else if (galery == true) {
                               controller.getImages(
@@ -153,6 +165,11 @@ class ImagePickerComponent extends StatelessWidget {
                                 onStartGetImage: onStartGetImage,
                                 onEndGetImage: onEndGetImage,
                                 onChange: onChange,
+                                isDirectUpload: isDirectUpload
+                                    ? uploadUrl == null || uploadUrl != ""
+                                        ? true
+                                        : false
+                                    : false,
                               );
                             }
                           }
@@ -310,12 +327,18 @@ class ImagePickerComponent extends StatelessWidget {
     memorySpaceCheck(context).then((result) {
       if (result == true) {
         controller.getImages(
-            camera: false,
-            imageQuality: imageQuality ?? 30,
-            onImageLoaded: onImageLoaded,
-            onStartGetImage: onStartGetImage,
-            onEndGetImage: onEndGetImage,
-            onChange: onChange);
+          camera: false,
+          imageQuality: imageQuality ?? 30,
+          onImageLoaded: onImageLoaded,
+          onStartGetImage: onStartGetImage,
+          onEndGetImage: onEndGetImage,
+          onChange: onChange,
+          isDirectUpload: isDirectUpload
+              ? uploadUrl == null || uploadUrl != ""
+                  ? true
+                  : false
+              : false,
+        );
       }
     });
   }
@@ -326,12 +349,18 @@ class ImagePickerComponent extends StatelessWidget {
     memorySpaceCheck(context).then((result) {
       if (result == true) {
         controller.getImages(
-            camera: true,
-            imageQuality: imageQuality ?? 30,
-            onImageLoaded: onImageLoaded,
-            onStartGetImage: onStartGetImage,
-            onEndGetImage: onEndGetImage,
-            onChange: onChange);
+          camera: true,
+          imageQuality: imageQuality ?? 30,
+          onImageLoaded: onImageLoaded,
+          onStartGetImage: onStartGetImage,
+          onEndGetImage: onEndGetImage,
+          onChange: onChange,
+          isDirectUpload: isDirectUpload
+              ? uploadUrl == null || uploadUrl != ""
+                  ? true
+                  : false
+              : false,
+        );
       }
     });
   }
@@ -352,7 +381,7 @@ class ImagePickerComponent extends StatelessWidget {
           Center(
             child: value.loadData
                 ? !(uploadUrl == null || uploadUrl == "") && !value.isUploaded
-                    ? prepearingUpload(value, context)
+                    ? prepearingUpload(value, context, onChange!)
                     : immageWidget(value)
                 : placeHolderContainer != null
                     ? placeHolderContainer!(value)
@@ -363,7 +392,8 @@ class ImagePickerComponent extends StatelessWidget {
     );
   }
 
-  Widget prepearingUpload(ImagePickerValue value, BuildContext context) {
+  Widget prepearingUpload(ImagePickerValue value, BuildContext context,
+      ValueChanged<ImagePickerController> onChange) {
     if (value.onProgressUpload == false &&
         value.state == ImagePickerComponentState.Enable) {
       controller.uploadFile(
@@ -388,6 +418,7 @@ class ImagePickerComponent extends StatelessWidget {
             debugPrint(onError);
           }
         },
+        onChange: onChange,
       );
     }
     return uploadProgressWidget(value, context);
@@ -746,6 +777,7 @@ class ImagePickerController extends ValueNotifier<ImagePickerValue> {
     VoidCallback? onStartGetImage,
     VoidCallback? onEndGetImage,
     ValueChanged<ImagePickerController>? onChange,
+    required bool isDirectUpload,
   }) async {
     onStartGetImage?.call();
     try {
@@ -821,7 +853,7 @@ class ImagePickerController extends ValueNotifier<ImagePickerValue> {
         if (onImageLoaded != null) {
           onImageLoaded(value.fileImage);
         }
-        onChange?.call(this);
+        if (!isDirectUpload) onChange?.call(this);
         return true;
       }).catchError((e) {
         value.error = e;
@@ -917,11 +949,16 @@ class ImagePickerController extends ValueNotifier<ImagePickerValue> {
         .toDouble();
   }
 
-  void uploadFile(String url, String field, String? descriptionField,
-      {String token = "",
-      ValueChanged<String>? onUploaded,
-      ValueChanged<dynamic>? onUploaderror,
-      bool? useDescriptionFieldAsQuery}) async {
+  void uploadFile(
+    String url,
+    String field,
+    String? descriptionField, {
+    String token = "",
+    ValueChanged<String>? onUploaded,
+    ValueChanged<dynamic>? onUploaderror,
+    required bool useDescriptionFieldAsQuery,
+    required ValueChanged<ImagePickerController> onChange,
+  }) async {
     if (value.fileImage == null) {
       return;
     }
@@ -951,6 +988,7 @@ class ImagePickerController extends ValueNotifier<ImagePickerValue> {
               "process... ${value.uploadedSize} ${value.fileSize} $percentageUpload");
           commit();
         },
+        useDescriptionFieldAsQuery: useDescriptionFieldAsQuery,
       ).then((result) {
         value.uploadedSize = 0;
         value.fileSize = 0;
@@ -963,6 +1001,7 @@ class ImagePickerController extends ValueNotifier<ImagePickerValue> {
         value.state = ImagePickerComponentState.Enable;
         onUploaded?.call(result);
         commit();
+        onChange(this);
       }).catchError((e) {
         debugPrint(e.toString());
         value.isUploaded = false;

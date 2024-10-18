@@ -50,10 +50,11 @@ class MultipleImagePickerComponent extends StatelessWidget {
   final int? maxCount;
   final bool canReupload;
   final bool showDescription;
-  final bool? useDescriptionFieldAsQuery;
+  final bool useDescriptionFieldAsQuery;
   final String? descriptionField;
+  final bool isDirectUpload;
 
-  const MultipleImagePickerComponent({
+  MultipleImagePickerComponent({
     super.key,
     required this.controller,
     this.placeHolder,
@@ -71,6 +72,7 @@ class MultipleImagePickerComponent extends StatelessWidget {
     this.buttonGalery,
     this.imagePickerBuilder,
     this.showAddButton = true,
+    this.isDirectUpload = false,
     this.addButtonBuilder,
     this.addButtonIconBuilder,
     this.onTap,
@@ -96,9 +98,14 @@ class MultipleImagePickerComponent extends StatelessWidget {
     this.maxCount,
     this.canReupload = true,
     this.showDescription = true,
-    this.useDescriptionFieldAsQuery,
+    this.useDescriptionFieldAsQuery = false,
     this.descriptionField,
-  });
+  }) {
+    if (isDirectUpload) {
+      assert(uploadUrl != null && uploadUrl!.isNotEmpty,
+          "uploadUrl must be provided when isDirectUpload is true");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -145,6 +152,7 @@ class MultipleImagePickerComponent extends StatelessWidget {
               height: size != null ? (size! - 5) : 100,
               width: size != null ? (size! - 5) : 100,
               child: ImagePickerComponent(
+                isDirectUpload: isDirectUpload,
                 containerHeight: size != null ? (size! - 5) : 100,
                 containerWidth: size != null ? (size! - 5) : 100,
                 camera: camera,
@@ -299,6 +307,7 @@ class MultipleImagePickerComponent extends StatelessWidget {
             openModal(context);
           } else {
             controller.add(
+              isDirectUpload: isDirectUpload,
               camera: camera,
               onImageLoaded: onImageLoaded,
               onEndGetImage: onEndGetImage,
@@ -445,6 +454,7 @@ class MultipleImagePickerComponent extends StatelessWidget {
   void openGalery(BuildContext context) {
     Navigator.of(context).pop();
     controller.add(
+      isDirectUpload: isDirectUpload,
       camera: false,
       onImageLoaded: onImageLoaded,
       onEndGetImage: onEndGetImage,
@@ -456,6 +466,7 @@ class MultipleImagePickerComponent extends StatelessWidget {
   void openCamera(BuildContext context) {
     Navigator.of(context).pop();
     controller.add(
+      isDirectUpload: isDirectUpload,
       camera: true,
       onImageLoaded: onImageLoaded,
       onEndGetImage: onEndGetImage,
@@ -472,12 +483,14 @@ class MultipleImagePickerController
 
   bool? isValid;
 
-  void add(
-      {bool camera = true,
-      ValueChanged<File?>? onImageLoaded,
-      VoidCallback? onStartGetImage,
-      VoidCallback? onEndGetImage,
-      Function(ImagePickerController)? onChange}) {
+  void add({
+    bool camera = true,
+    ValueChanged<File?>? onImageLoaded,
+    VoidCallback? onStartGetImage,
+    VoidCallback? onEndGetImage,
+    Function(ImagePickerController)? onChange,
+    required bool isDirectUpload,
+  }) {
     value.imagePickerControllers!.add(ImagePickerController());
     value.imagePickerControllers!.last.value.context = value.context;
     notifyListeners();
@@ -487,6 +500,7 @@ class MultipleImagePickerController
       onStartGetImage: onStartGetImage,
       onEndGetImage: onEndGetImage,
       onChange: onChange,
+      isDirectUpload: isDirectUpload,
     );
   }
 

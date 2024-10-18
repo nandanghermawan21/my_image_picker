@@ -51,10 +51,11 @@ class _OnlineExampleState extends State<OnlineExample> {
                   size: 150,
                   canReupload: true,
                   useDescriptionFieldAsQuery: true,
+                  isDirectUpload: true,
                   uploadUrl:
                       "https://dev2.enerren.com/SmartSafeteeMobileApi/api/HseFormData/UploadAttachment",
                   token:
-                      "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zaWQiOiI5OWI1NmU0My0zNzVlLTQ2NDItOGUyNy03OTM1ZWZlNGExY2QiLCJVc2VyTmFtZSI6ImFkbWluIiwiU3Vic2NyaXB0aW9uSWQiOiJhZGYxYWE0MC1lMmM0LTQ0NjQtOTVlMC0wOTY3MGUxZGQ4YjciLCJDb21wYW55TmFtZSI6IlBULiBFbmVycmVuIFRlY2hub2xvZ2llcyIsIm5iZiI6MTcxODE1NjEzMCwiZXhwIjoxNzE4MTk5MzMwLCJpYXQiOjE3MTgxNTYxMzB9.TZYFVFRih3saWVtUXpE1vnz9jhKKApiYxdUamuHbGzI",
+                      "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zaWQiOiI3NzcxNmM2NC0xOGY5LTQ1Y2QtYWIwZS1lOGM3MDhmMmNjZWMiLCJVc2VyTmFtZSI6ImFkbWluIiwiU3Vic2NyaXB0aW9uSWQiOiJhZGYxYWE0MC1lMmM0LTQ0NjQtOTVlMC0wOTY3MGUxZGQ4YjciLCJDb21wYW55TmFtZSI6IlBULiBFbmVycmVuIFRlY2hub2xvZ2llcyIsIm5iZiI6MTcyOTIzNzc1NiwiZXhwIjoxNzI5MjgwOTU2LCJpYXQiOjE3MjkyMzc3NTZ9.GeehjGZEkooyBbu-XzHru5nPLuPs8ZjjJdVfYO59T-A",
                   onChange: (controller) {
                     controller.getImageData().forEach((element) {
                       if (kDebugMode) {

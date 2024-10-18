@@ -18,7 +18,7 @@ class FileServiceUtil {
     String? descriptionField,
     Map<String, dynamic>? header,
     OnUploadProgressCallback? onUploadProgress,
-    bool useDescriptionFieldAsQuery = false,
+    required bool useDescriptionFieldAsQuery,
   }) async {
     assert(file != null);
 
@@ -52,8 +52,11 @@ class FileServiceUtil {
     );
 
     requestMultipart.files.add(multipart);
-    if (description != null) {
-      requestMultipart.fields[descriptionField ?? "description"] = description;
+    if (useDescriptionFieldAsQuery) {
+      if (description != null) {
+        requestMultipart.fields[descriptionField ?? "description"] =
+            description;
+      }
     }
 
     var msStream = requestMultipart.finalize();

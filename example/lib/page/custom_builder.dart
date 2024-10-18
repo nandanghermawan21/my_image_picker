@@ -41,6 +41,7 @@ class _CustomBuilderExampleState extends State<CustomBuilderExample> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             ImagePickerComponent(
+              isDirectUpload: false,
               controller: controller,
               showDescription: false,
               container: (ctx, value) {
