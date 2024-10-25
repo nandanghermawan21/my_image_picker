@@ -50,13 +50,28 @@ class _OfflineExampleState extends State<OfflineExample> {
                   controller: controller,
                   size: 150,
                   canReupload: true,
-                  onChange: (controller) {
+                  onChange: (controller, index) {
+                    debugPrint("image index $index changed");
+                    if (index == null) {
+                      if (kDebugMode) {
+                        print(controller.getImageData().last?.toJson());
+                      }
+                    } else {
+                      if (kDebugMode) {
+                        print(controller.getImageData()[index]?.toJson());
+                      }
+                    }
+                    setState(() {});
+                  },
+                  onDeleteImage: (p0, index) async {
+                    debugPrint("image index $index changed");
                     controller.getImageData().forEach((element) {
                       if (kDebugMode) {
                         print(element?.toJson());
                       }
                     });
                     setState(() {});
+                    return Future.value(true);
                   },
                 ),
               ),

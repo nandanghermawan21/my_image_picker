@@ -34,9 +34,9 @@ class MultipleImagePickerComponent extends StatelessWidget {
   final ValueChanged<File?>? onImageLoaded;
   final ValueChanged<String>? onUploaded;
   final ValueChanged<dynamic>? onUploadFailed;
-  final ObjectBuilderWithParam<Future<bool>, ImagePickerController>?
+  final ObjectBuilderWith2Param<Future<bool>, ImagePickerController, int?>?
       onDeleteImage;
-  final VoidCallback? onImageDeleted;
+  // final VoidCallback? onImageDeleted;
   final double? size;
   final bool showButtonDelete;
   final List<WidgetFromDataBuilder<ImagePickerValue>>
@@ -46,7 +46,7 @@ class MultipleImagePickerComponent extends StatelessWidget {
   final String? selectPhotoLabel;
   final String? openCameraLabel;
   final String? openGalleryLabel;
-  final ValueChanged<MultipleImagePickerController>? onChange;
+  final ValueChanged2Param<MultipleImagePickerController, int?>? onChange;
   final int? maxCount;
   final bool canReupload;
   final bool showDescription;
@@ -86,7 +86,7 @@ class MultipleImagePickerComponent extends StatelessWidget {
     this.onDeleteImage,
     this.size,
     this.onImageLoaded,
-    this.onImageDeleted,
+    // this.onImageDeleted,
     this.showButtonDelete = true,
     this.imagePickerPlaceHolderContainers = const [],
     this.onEndGetImage,
@@ -186,7 +186,7 @@ class MultipleImagePickerComponent extends StatelessWidget {
                         : null,
                 onChange: (val) {
                   if (onChange != null) {
-                    onChange!(controller);
+                    onChange!(controller, index);
                   }
                 },
                 showDescription: showDescription,
@@ -205,44 +205,48 @@ class MultipleImagePickerComponent extends StatelessWidget {
                     child: GestureDetector(
                       onTap: () {
                         if (onDeleteImage != null) {
-                          onDeleteImage!(imagePickerController).then(
+                          onDeleteImage!(imagePickerController, index).then(
                             (value) {
                               if (value == true) {
                                 controller.remove(index);
-                                if (onImageDeleted != null) {
-                                  onImageDeleted!();
-                                }
+                                controller.setState(() {});
+                                // if (onImageDeleted != null) {
+                                //   onImageDeleted!();
+                                // }
                               }
                             },
                           );
                         } else {
                           controller.remove(index);
-                          if (onImageDeleted != null) {
-                            onImageDeleted!();
-                          }
+                          controller.setState(() {});
+                          // if (onImageDeleted != null) {
+                          //   onImageDeleted!();
+                          // }
                         }
                       },
                       child: IconButton(
                         icon: const Icon(FontAwesomeIcons.timesCircle),
                         onPressed: () {
                           if (onDeleteImage != null) {
-                            onDeleteImage!(imagePickerController).then(
+                            onDeleteImage!(imagePickerController, index).then(
                               (value) {
                                 if (value == true) {
                                   controller.remove(index);
-                                  onChange!(controller);
-                                  if (onImageDeleted != null) {
-                                    onImageDeleted!();
-                                  }
+                                  controller.setState(() {});
+                                  // onChange!(controller, index);
+                                  // if (onImageDeleted != null) {
+                                  //   onImageDeleted!();
+                                  // }
                                 }
                               },
                             );
                           } else {
                             controller.remove(index);
-                            onChange!(controller);
-                            if (onImageDeleted != null) {
-                              onImageDeleted!();
-                            }
+                            controller.setState(() {});
+                            // onChange!(controller, index);
+                            // if (onImageDeleted != null) {
+                            //   onImageDeleted!();
+                            // }
                           }
                         },
                       ),
@@ -314,7 +318,7 @@ class MultipleImagePickerComponent extends StatelessWidget {
               onStartGetImage: onStartGetImage,
               onChange: (val) {
                 if (onChange != null) {
-                  onChange!(controller);
+                  onChange!(controller, null);
                 }
               },
             );
@@ -459,7 +463,7 @@ class MultipleImagePickerComponent extends StatelessWidget {
       onImageLoaded: onImageLoaded,
       onEndGetImage: onEndGetImage,
       onStartGetImage: onStartGetImage,
-      onChange: (p0) => onChange!(controller),
+      onChange: (p0) => onChange!(controller, null),
     );
   }
 
@@ -471,7 +475,7 @@ class MultipleImagePickerComponent extends StatelessWidget {
       onImageLoaded: onImageLoaded,
       onEndGetImage: onEndGetImage,
       onStartGetImage: onStartGetImage,
-      onChange: (p0) => onChange!(controller),
+      onChange: (p0) => onChange!(controller, null),
     );
   }
 }

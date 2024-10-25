@@ -16,5 +16,6 @@ typedef ObjectBuilder<T> = T Function();
 typedef FutureObjectBuilder<T> = Future<T> Function();
 typedef FutureObjectBuilderWithParam<T, T2> = Future<T> Function(T2);
 typedef ObjectBuilderWithParam<T, T1> = T Function(T1);
+typedef ObjectBuilderWith2Param<T, T1, T2> = T Function(T1, T2);
 typedef ListWidgetBuilder = List<Widget> Function();
 typedef StringBuilder<T1> = String Function(T1);
