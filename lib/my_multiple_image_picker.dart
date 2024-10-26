@@ -498,13 +498,21 @@ class MultipleImagePickerController
     value.imagePickerControllers!.add(ImagePickerController());
     value.imagePickerControllers!.last.value.context = value.context;
     notifyListeners();
-    value.imagePickerControllers!.last.getImages(
+    value.imagePickerControllers!.last
+        .getImages(
       camera: camera,
       onImageLoaded: onImageLoaded,
       onStartGetImage: onStartGetImage,
       onEndGetImage: onEndGetImage,
       onChange: onChange,
       isDirectUpload: isDirectUpload,
+    )
+        .catchError(
+      (e) {
+        value.imagePickerControllers!.removeLast();
+        notifyListeners();
+        return false;
+      },
     );
   }
 

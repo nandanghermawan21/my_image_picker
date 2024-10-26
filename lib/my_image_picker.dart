@@ -818,6 +818,9 @@ class ImagePickerController extends ValueNotifier<ImagePickerValue> {
       }
 
       File image = File(picker!.path);
+      if (image.path.isEmpty) {
+        throw "Image path is empty";
+      }
 
       String _valueBase64Compress = "";
       value.fileImage = image;
@@ -866,7 +869,7 @@ class ImagePickerController extends ValueNotifier<ImagePickerValue> {
     } catch (e) {
       debugPrint("error on get picture");
       onEndGetImage?.call();
-      return false;
+      rethrow;
     }
   }
 
