@@ -55,6 +55,7 @@ class MultipleImagePickerComponent extends StatelessWidget {
   final bool isDirectUpload;
   final String? saveLabel;
   final String? cancelLabel;
+  final String? addDescriptionLabel;
 
   MultipleImagePickerComponent({
     super.key,
@@ -104,6 +105,7 @@ class MultipleImagePickerComponent extends StatelessWidget {
     this.descriptionField,
     this.saveLabel,
     this.cancelLabel,
+    this.addDescriptionLabel,
   }) {
     if (isDirectUpload) {
       assert(uploadUrl != null && uploadUrl!.isNotEmpty,
@@ -197,6 +199,7 @@ class MultipleImagePickerComponent extends StatelessWidget {
                 descriptionField: descriptionField,
                 saveLabel: saveLabel,
                 cancelLabel: cancelLabel,
+                addDescriptionLabel: addDescriptionLabel,
               ),
             ),
           ),
