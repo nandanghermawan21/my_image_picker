@@ -1,19 +1,15 @@
-// ignore_for_file: no_leading_underscores_for_local_identifiers
-
 library my_image_picker;
 
 import 'dart:convert';
 import 'dart:io';
-// import 'package:enerren/util/EnvironmentUtil.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:my_camera/my_camera.dart';
 import 'package:my_image_picker/file_service.dart';
+import 'package:my_image_picker/my_camera.dart';
 import 'package:my_image_picker/type.dart';
 import 'package:permission_handler/permission_handler.dart';
-// import 'package:intl/intl.dart';
 
 class ImagePickerComponent extends StatelessWidget {
   final ImagePickerController controller;
@@ -211,7 +207,7 @@ class ImagePickerComponent extends StatelessWidget {
       elevation: 1,
       isDismissible: true,
       isScrollControlled: true,
-      backgroundColor: Colors.red.withOpacity(0),
+      backgroundColor: Colors.red.withValues(alpha: 0),
       builder: (BuildContext context) {
         return GestureDetector(
           onTap: () {
@@ -220,7 +216,7 @@ class ImagePickerComponent extends StatelessWidget {
           child: Container(
             height: double.infinity,
             width: double.infinity,
-            color: Colors.grey.withOpacity(0.0),
+            color: Colors.grey.withValues(alpha: 0.0),
             child: Align(
               alignment: popUpAlign ?? Alignment.bottomCenter,
               child: Container(
@@ -430,7 +426,7 @@ class ImagePickerComponent extends StatelessWidget {
         children: [
           immageWidget(value),
           Container(
-            color: Colors.white.withOpacity(0.8),
+            color: Colors.white.withValues(alpha: 0.8),
           ),
           Center(
             child: Container(
@@ -511,7 +507,7 @@ class ImagePickerComponent extends StatelessWidget {
                       color: Theme.of(value.context!)
                           .colorScheme
                           .primary
-                          .withOpacity(0.9),
+                          .withValues(alpha: 0.9),
                       padding: const EdgeInsets.all(5),
                       width: double.infinity,
                       height: 25,
@@ -822,7 +818,7 @@ class ImagePickerController extends ValueNotifier<ImagePickerValue> {
         throw "Image path is empty";
       }
 
-      String _valueBase64Compress = "";
+      String valueBase64Compress = "";
       value.fileImage = image;
       value.base64 = getExtension(image.toString())! +
           base64.encode(image.readAsBytesSync());
@@ -832,22 +828,22 @@ class ImagePickerController extends ValueNotifier<ImagePickerValue> {
         image.absolute.path,
         quality: value.quality,
       ).then((a) async {
-        bool _doUpload = true;
+        bool doUpload = true;
         if (value.beforeUpload != null) {
-          _doUpload = await value.beforeUpload!();
+          doUpload = await value.beforeUpload!();
         }
 
-        if (_doUpload == false) {
+        if (doUpload == false) {
           clear();
           return false;
         }
 
-        _valueBase64Compress =
+        valueBase64Compress =
             getExtension(image.toString())! + base64.encode(a!);
-        value.base64Compress = _valueBase64Compress;
-        value.base64 = _valueBase64Compress;
+        value.base64Compress = valueBase64Compress;
+        value.base64 = valueBase64Compress;
         value.loadData = true;
-        value.valueUri = Uri.parse(_valueBase64Compress).data!;
+        value.valueUri = Uri.parse(valueBase64Compress).data!;
         value.isUploaded = false;
         value.uploadedUrl = null;
         value.state = ImagePickerComponentState.Enable;
@@ -936,13 +932,13 @@ class ImagePickerController extends ValueNotifier<ImagePickerValue> {
   }
 
   bool get isValid {
-    bool _isValid = (getBase64() == null || getBase64() == "") ? false : true;
-    _isValid = _isValid == false
+    bool isValid = (getBase64() == null || getBase64() == "") ? false : true;
+    isValid = isValid == false
         ? value.uploadedUrl == null || value.uploadedUrl == ""
             ? false
             : true
-        : _isValid;
-    return _isValid;
+        : isValid;
+    return isValid;
   }
 
   double get percentageUpload {
@@ -1054,7 +1050,7 @@ class ImagePickerController extends ValueNotifier<ImagePickerValue> {
       elevation: 1,
       isDismissible: true,
       isScrollControlled: true,
-      backgroundColor: Colors.red.withOpacity(0),
+      backgroundColor: Colors.red.withValues(alpha: 0),
       builder: (BuildContext context) {
         return GestureDetector(
           onTap: () {
@@ -1063,7 +1059,7 @@ class ImagePickerController extends ValueNotifier<ImagePickerValue> {
           child: Container(
             height: double.infinity,
             width: double.infinity,
-            color: Colors.grey.withOpacity(0.0),
+            color: Colors.grey.withValues(alpha: 0.0),
             child: Align(
               alignment: popUpAlign ?? Alignment.bottomCenter,
               child: Container(

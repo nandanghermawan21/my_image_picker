@@ -234,7 +234,7 @@ class MultipleImagePickerComponent extends StatelessWidget {
                         }
                       },
                       child: IconButton(
-                        icon: const Icon(FontAwesomeIcons.timesCircle),
+                        icon: const Icon(FontAwesomeIcons.circleXmark),
                         onPressed: () {
                           if (onDeleteImage != null) {
                             onDeleteImage!(imagePickerController, index).then(
@@ -350,7 +350,7 @@ class MultipleImagePickerComponent extends StatelessWidget {
       elevation: 1,
       isDismissible: true,
       isScrollControlled: true,
-      backgroundColor: Colors.red.withOpacity(0),
+      backgroundColor: Colors.red.withValues(alpha: 0),
       builder: (BuildContext context) {
         return GestureDetector(
           onTap: () {
@@ -359,7 +359,7 @@ class MultipleImagePickerComponent extends StatelessWidget {
           child: Container(
             height: double.infinity,
             width: double.infinity,
-            color: Colors.grey.withOpacity(0.0),
+            color: Colors.grey.withValues(alpha: 0.0),
             child: Align(
               alignment: popUpAlign ?? Alignment.bottomCenter,
               child: Container(
