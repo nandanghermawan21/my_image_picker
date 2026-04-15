@@ -247,67 +247,71 @@ class ImagePickerComponent extends StatelessWidget {
                       }, () {
                         openGalery(context);
                       })
-                    : Column(
-                        children: <Widget>[
-                          Text(
-                            selectPhotoLabel ?? "Select Photo",
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          ),
-                          const SizedBox(
-                            height: 15,
-                          ),
-                          buttonGalery != null
-                              ? buttonGalery!(() {
-                                  openGalery(context);
-                                })
-                              : SizedBox(
-                                  height: 35,
-                                  width: 200,
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      openCamera(context);
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor:
-                                          Theme.of(context).colorScheme.primary,
+                    : SafeArea(
+                        child: Column(
+                          children: <Widget>[
+                            Text(
+                              selectPhotoLabel ?? "Select Photo",
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                            const SizedBox(
+                              height: 15,
+                            ),
+                            buttonGalery != null
+                                ? buttonGalery!(() {
+                                    openGalery(context);
+                                  })
+                                : SizedBox(
+                                    height: 35,
+                                    width: 200,
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        openCamera(context);
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Theme.of(context)
+                                            .colorScheme
+                                            .primary,
+                                      ),
+                                      child: Text(openCameraLabel ?? "Camera",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium
+                                              ?.copyWith(
+                                                color: Colors.white,
+                                              )),
                                     ),
-                                    child: Text(openCameraLabel ?? "Camera",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium
-                                            ?.copyWith(
-                                              color: Colors.white,
-                                            )),
                                   ),
-                                ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          buttonGalery != null
-                              ? buttonGalery!(() {
-                                  openGalery(context);
-                                })
-                              : SizedBox(
-                                  height: 35,
-                                  width: 200,
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      openGalery(context);
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor:
-                                          Theme.of(context).colorScheme.primary,
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            buttonGalery != null
+                                ? buttonGalery!(() {
+                                    openGalery(context);
+                                  })
+                                : SizedBox(
+                                    height: 35,
+                                    width: 200,
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        openGalery(context);
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Theme.of(context)
+                                            .colorScheme
+                                            .primary,
+                                      ),
+                                      child: Text(openGaleryLabel ?? "Gallery",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium
+                                              ?.copyWith(
+                                                color: Colors.white,
+                                              )),
                                     ),
-                                    child: Text(openGaleryLabel ?? "Gallery",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium
-                                            ?.copyWith(
-                                              color: Colors.white,
-                                            )),
                                   ),
-                                ),
-                        ],
+                          ],
+                        ),
                       ),
               ),
             ),
